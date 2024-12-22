@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigate"
+    app:startDestination="@id/viewPagerFragment">
+
+    <fragment
+        android:id="@+id/newStickyNoteFragment"
+        android:name="com.example.stickynotes.ui.fragments.NewStickyNoteFragment"
+        android:label="fragment_new_sticky_note"
+        tools:layout="@layout/fragment_new_sticky_note" />
+    <fragment
+        android:id="@+id/favoriteNotesFragment"
+        android:name="com.example.stickynotes.ui.fragments.FavoriteNotesFragment"
+        android:label="fragment_favorite_notes"
+        tools:layout="@layout/fragment_favorite_notes" />
+    <fragment
+        android:id="@+id/stickyNotesDisplayFragment"
+        android:name="com.example.stickynotes.ui.fragments.StickyNotesDisplayFragment"
+        android:label="fragment_sticky_notes_display"
+        tools:layout="@layout/fragment_sticky_notes_display" />
+    <fragment
+        android:id="@+id/viewPagerFragment"
+        android:name="com.example.stickynotes.ui.fragments.ViewPagerFragment"
+        android:label="fragment_view_pager"
+        tools:layout="@layout/fragment_view_pager" />
+</navigation>
