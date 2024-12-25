@@ -9,11 +9,14 @@ class StickyNotesRepository(private val stickyNotesDao: StickyNotesDAO) {
 
     val notes: LiveData<List<StickyNotesTable>> = stickyNotesDao.getNotes()
 
-    suspend fun insert(stickyNotesTable: StickyNotesTable) {
+    suspend fun insertNote(stickyNotesTable: StickyNotesTable) {
         stickyNotesDao.insertNote(stickyNotesTable)
     }
 
     suspend fun deleteNotes(noteIds: List<Int>) {
         stickyNotesDao.deleteNote(noteIds)
+    }
+    suspend fun updateNote(stickyNotesTable: StickyNotesTable) {
+        stickyNotesDao.updateNote(stickyNotesTable)
     }
 }

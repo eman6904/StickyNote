@@ -8,8 +8,10 @@ import androidx.room.PrimaryKey
 data class StickyNotesTable(
     @PrimaryKey(autoGenerate = true)
     val id:Int = 0,
-    val stickyNoteContent:String,
-    val stickyNoteColor:String,
-    val fontColor:String,
-    val isFavorite:Boolean,
+    var stickyNoteContent:String,
+    var stickyNoteColor:String,
+    var fontColor:String,
+    var lockPassword:String = "",
+    var isFavorite:Boolean = false,
+    var isLocked:Boolean = false
 )

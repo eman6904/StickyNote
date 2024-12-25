@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="#FFFFFF"
+    tools:context=".ui.fragments.NoteDetailsFragment">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:textStyle="italic"
+        android:textSize="20sp"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/appColor2"
+        android:text="Edit Your Sticky Note  " />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/selectedNote"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:gravity="start"
+            android:padding="25dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/note_background"
+            android:textColor="@color/appColor1"
+            android:textSize="18dp"
+            android:textColorHint="@color/appColor1"
+            android:hint=""
+            android:text=""
+            />
+        <ImageView
+            android:id="@+id/lockIcon2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            app:tint="#FDFDFD"
+            android:visibility="gone"
+            android:padding="15dp"
+            android:src="@drawable/lock_icon" />
+    </FrameLayout>
+       <LinearLayout
+           android:id="@+id/addToFavorite"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:clickable="true"
+           android:paddingStart="5dp"
+           android:orientation="horizontal">
+
+           <ImageView
+               android:id="@+id/favIcon"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:padding="5dp"
+               android:layout_gravity="center"
+               android:src="@drawable/favorite_icon2"
+               app:tint="#DEAA79" />
+
+           <TextView
+               android:id="@+id/favInstr"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:textColor="@color/appColor2"
+               android:layout_gravity="center"
+               android:layout_weight="1"
+               android:text="Add to favorite" />
+           <CheckBox
+               android:id="@+id/isFav"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="end"
+               android:enabled="false"
+               app:buttonTint="@color/appColor2"
+               />
+       </LinearLayout>
+    <LinearLayout
+        android:id="@+id/lockNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:paddingStart="5dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/lockIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:tint="#DEAA79"
+            android:padding="5dp"
+            android:src="@drawable/lock_icon" />
+
+        <TextView
+            android:id="@+id/lockInstr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:textColor="@color/appColor2"
+            android:text="Lock note  " />
+        <CheckBox
+            android:id="@+id/isLocked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:enabled="false"
+            app:buttonTint="@color/appColor2"
+            />
+    </LinearLayout>
+     <LinearLayout
+        android:id="@+id/editNote"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#DEAA79"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:padding="5dp"
+                android:text="Note Color">
+            </TextView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/noteColorList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:padding="10dp"
+             android:gravity="center"
+             android:orientation="vertical"
+             android:layout_weight="1">
+             <TextView
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:textColor="#DEAA79"
+                 android:textStyle="bold"
+                 android:gravity="center"
+                 android:textSize="18sp"
+                 android:padding="5dp"
+                 android:text="Font Color">
+             </TextView>
+             <androidx.recyclerview.widget.RecyclerView
+                 android:id="@+id/fontColorList"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent" />
+         </LinearLayout>
+    </LinearLayout>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/saveUpdatesBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:textAllCaps="false"
+        android:shadowColor="@color/black"
+        android:background="@drawable/button_shape"
+        android:textColor="@color/white"
+        android:text="Save Updates" />
+</LinearLayout>

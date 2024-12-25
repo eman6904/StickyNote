@@ -25,7 +25,7 @@
         app:tabBackground="@drawable/tab_indicator_shape"
         app:tabIndicatorGravity="stretch"
         app:tabIndicatorAnimationMode="fade"
-        app:tabSelectedTextColor="@color/white"
+        app:tabSelectedTextColor="@color/appColor2"
         app:tabIndicator="@drawable/tab_indicator_shape"
         app:tabIndicatorColor="@null" />
     <androidx.viewpager2.widget.ViewPager2

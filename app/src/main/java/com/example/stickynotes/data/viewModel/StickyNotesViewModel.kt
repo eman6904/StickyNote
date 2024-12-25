@@ -1,7 +1,6 @@
 package com.example.stickynotes.data.viewModel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -25,42 +24,52 @@ class StickyNotesViewModel(application: Application) : AndroidViewModel(applicat
     private val _selectedIds = MutableLiveData<ArrayList<Int>>()
     val selectedIds: LiveData<ArrayList<Int>> get() = _selectedIds
 
-    private val _stickyNoteColor = MutableLiveData<String>()
+    private val _stickyNoteColor = MutableLiveData("#F0BB78")
     val stickyNoteColor: LiveData<String> get() = _stickyNoteColor
 
-    private val _FontColor = MutableLiveData<String>()
+    private val _FontColor = MutableLiveData("#FFFFFFFF")
     val fontColor: LiveData<String> get() = _FontColor
 
-    private val _selectionMode = MutableLiveData<Boolean>(false)
+    private val _searchedQuery = MutableLiveData("")
+    val searchedQuery: LiveData<String> get() = _searchedQuery
+
+    private val _selectionMode = MutableLiveData(false)
     val selectionMode: LiveData<Boolean> get() = _selectionMode
 
     val combinedLiveData = MediatorLiveData<List<Any>>()
+
+    private val _selectedTab = MutableLiveData(0)
+    val selectedTab: LiveData<Int> get() = _selectedTab
+
+    private val _selectedNote = MutableLiveData<StickyNotesTable>()
+    val selectedNote: LiveData<StickyNotesTable> get() = _selectedNote
 
     init {
         val dao = StickyNoteDatabase.getDatabase(application).stickyNoteDao()
         repository = StickyNotesRepository(dao)
         _selectedIds.value = ArrayList()
         combinedLiveData.addSource(notes) { notes ->
-            combinedLiveData.value = listOf(notes, selectionMode.value).filterNotNull()
+            combinedLiveData.value = listOf(notes, selectionMode.value,searchedQuery.value).filterNotNull()
         }
         combinedLiveData.addSource(selectionMode) { selectionMode ->
-            combinedLiveData.value = listOf(notes.value, selectionMode).filterNotNull()
+            combinedLiveData.value = listOf(notes.value, selectionMode,searchedQuery.value).filterNotNull()
         }
-//        combinedLiveData.addSource(liveData3) { value3 ->
-//            combinedLiveData.value = listOf(liveData1.value, liveData2.value, value3, liveData4.value).filterNotNull()
-//        }
-//        combinedLiveData.addSource(liveData4) { value4 ->
-//            combinedLiveData.value = listOf(liveData1.value, liveData2.value, liveData3.value, value4).filterNotNull()
-//        }
+        combinedLiveData.addSource(searchedQuery) { searchedQuery ->
+            combinedLiveData.value = listOf(notes.value, selectionMode.value,searchedQuery).filterNotNull()
+        }
     }
 
 
-    fun insert(note: StickyNotesTable) = viewModelScope.launch(Dispatchers.IO) {
-        repository.insert(note)
+    fun insertNote(note: StickyNotesTable) = viewModelScope.launch(Dispatchers.IO) {
+        repository.insertNote(note)
     }
 
     fun deleteNotes(noteIds: List<Int>) = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteNotes(noteIds)
+    }
+
+    fun updateNote(note: StickyNotesTable) = viewModelScope.launch(Dispatchers.IO) {
+        repository.updateNote(note)
     }
     fun setStickyNoteColor(color:String){
 
@@ -85,14 +94,32 @@ class StickyNotesViewModel(application: Application) : AndroidViewModel(applicat
     }
     fun addToSelectedIds(id:Int){
 
-        if(!_selectedIds.value!!.contains(id))
-            _selectedIds.value!!.add(id)
+        if(!_selectedIds.value!!.contains(id)) {
+            val list = _selectedIds.value
+            list!!.add(id)
+            _selectedIds.value = list!!
+        }
 
     }
     fun removeFromSelectedIds(id:Int){
 
-        if(_selectedIds.value!!.contains(id))
-            _selectedIds.value!!.remove(id)
+        if(_selectedIds.value!!.contains(id)) {
+            val list = _selectedIds.value
+            list!!.remove(id)
+            _selectedIds.value = list!!
+            if(_selectedIds.value!!.isEmpty())
+                removeSelectionMode()
+        }
     }
+    fun updateSelectedTab(position: Int) {
+        _selectedTab.value = position
+    }
+    fun setSelectedNote(selectedNote:StickyNotesTable){
 
+        _selectedNote.value = selectedNote
+    }
+    fun setSearchedQuery(searchedQuery:String){
+
+        _searchedQuery.value = searchedQuery
+    }
 }

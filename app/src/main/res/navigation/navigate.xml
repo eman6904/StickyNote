@@ -24,5 +24,14 @@
         android:id="@+id/viewPagerFragment"
         android:name="com.example.stickynotes.ui.fragments.ViewPagerFragment"
         android:label="fragment_view_pager"
-        tools:layout="@layout/fragment_view_pager" />
+        tools:layout="@layout/fragment_view_pager" >
+        <action
+            android:id="@+id/action_viewPagerFragment_to_noteDetailsFrgment"
+            app:destination="@id/noteDetailsFrgment" />
+    </fragment>
+    <fragment
+        android:id="@+id/noteDetailsFrgment"
+        android:name="com.example.stickynotes.ui.fragments.NoteDetailsFragment"
+        android:label="fragment_note_details_frgment"
+        tools:layout="@layout/fragment_note_details_frgment" />
 </navigation>

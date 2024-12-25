@@ -56,6 +56,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/button_shape"
         android:layout_marginEnd="5dp"
+        android:shadowColor="@color/black"
         android:layout_marginStart="5dp"
         android:textAllCaps="false"
         android:textColor="@color/white"
@@ -83,6 +84,7 @@
         android:background="@drawable/button_shape"
         android:layout_marginEnd="5dp"
         android:layout_marginStart="5dp"
+        android:shadowColor="@color/black"
         android:textColor="@color/white"
         android:text="Font Color" />
     </FrameLayout>
@@ -98,6 +100,7 @@
         android:visibility="gone"
         android:background="@drawable/button_shape"
         android:layout_marginEnd="5dp"
+        android:shadowColor="@color/black"
         android:layout_marginStart="5dp"
         android:textColor="@color/white"
         android:text="Save" />

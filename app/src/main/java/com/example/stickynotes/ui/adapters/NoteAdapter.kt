@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.stickynotes.R
 import com.example.stickynotes.data.tables.StickyNotesTable
@@ -24,6 +25,7 @@ class NoteAdapter (private val list: List<StickyNotesTable>,private val stickyNo
         var noteBody = binding.noteBody
         val noteContent = binding.noteContent
         val isSelectedCheckBox = binding.isSelectedCheckBox
+        val lockIcon = binding.lockIcon2
 
     }
     private var onClickListener:OnClickListener? = null
@@ -39,9 +41,13 @@ class NoteAdapter (private val list: List<StickyNotesTable>,private val stickyNo
         val drawable = ContextCompat.getDrawable(holder.itemView.context, R.drawable.note_background) as GradientDrawable
         drawable.setColor(Color.parseColor(list[position].stickyNoteColor))
         drawable.setStroke(2, holder.itemView.context.getColor(R.color.helperColor))
-        holder.noteContent.setText(list[position].stickyNoteContent)
-        holder.noteContent.setTextColor(Color.parseColor(list[position].fontColor))
         holder.noteBody.background = drawable
+        if(!list[position].isLocked)
+            holder.noteContent.setText(list[position].stickyNoteContent)
+        else
+            holder.noteContent.setText("")
+        holder.noteContent.setTextColor(Color.parseColor(list[position].fontColor))
+        holder.lockIcon.isVisible = list[position].isLocked
 
         if(stickyNotesViewModel.selectionMode.value == true) {
 

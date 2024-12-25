@@ -1,16 +1,18 @@
 package com.example.stickynotes.ui.fragments
 
+import android.app.Dialog
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.stickynotes.R
@@ -25,9 +27,6 @@ import com.example.stickynotes.ui.models.ColorModel
 class NewStickyNoteFragment : Fragment() {
 
     private val stickyNoteViewModel: StickyNotesViewModel by activityViewModels()
-    private var stickyNoteContent:String? = null
-    private var stickyNoteColor:String = "#0B0A0A"
-    private var stickyNoteFontColor:String = "#023732"
     private lateinit var colorLists: ColorsLists
     private val binding: FragmentNewStickyNoteBinding by lazy {
         FragmentNewStickyNoteBinding.inflate(layoutInflater)
@@ -43,6 +42,7 @@ class NewStickyNoteFragment : Fragment() {
 
         colorLists = ColorsLists()
         colorLists.setStickyNoteColor()
+        colorLists.setFontColor()
 
         stickyNoteColor(
 
@@ -52,7 +52,7 @@ class NewStickyNoteFragment : Fragment() {
 
         fontColor(
             context = requireContext(),
-            colorsList = colorLists.colorsList.reversed()
+            colorsList = colorLists.fontColorsList
         )
 
         manageNoteSize(
@@ -68,7 +68,7 @@ class NewStickyNoteFragment : Fragment() {
         colorLists: ColorsLists
     ) {
 
-        val adapter = ColorsAdapter(colorLists.colorsList)
+        val adapter = ColorsAdapter(colorLists.noteColorsList)
         binding.backgroundColorBtn.setOnClickListener {
 
             binding.backgroundColorBtn.visibility = View.GONE
@@ -84,7 +84,7 @@ class NewStickyNoteFragment : Fragment() {
 
                 binding.backgroundColorBtn.visibility = View.VISIBLE
                 binding.backgroundColorRecycler.visibility = View.GONE
-                stickyNoteViewModel.setStickyNoteColor(colorLists.colorsList[position].brushColor)
+                stickyNoteViewModel.setStickyNoteColor(colorLists.noteColorsList[position].brushColor)
             }
         })
     }
@@ -157,37 +157,44 @@ class NewStickyNoteFragment : Fragment() {
     private fun insertNote(){
         
         binding.myNote.backgroundTintList =
-            ColorStateList.valueOf(Color.parseColor(stickyNoteColor))
-        binding.myNote.setTextColor(Color.parseColor(stickyNoteFontColor))
-        binding.myNote.setHintTextColor(Color.parseColor(stickyNoteFontColor))
+            ColorStateList.valueOf(Color.parseColor(stickyNoteViewModel.stickyNoteColor.value))
+        binding.myNote.setTextColor(Color.parseColor(stickyNoteViewModel.fontColor.value))
+        binding.myNote.setHintTextColor(Color.parseColor(stickyNoteViewModel.fontColor.value))
 
         stickyNoteViewModel.fontColor.observe(viewLifecycleOwner){color->
 
-            stickyNoteFontColor = color
             binding.myNote.setTextColor(Color.parseColor(color))
             binding.myNote.setHintTextColor(Color.parseColor(color))
         }
         stickyNoteViewModel.stickyNoteColor.observe(viewLifecycleOwner){color->
 
-            stickyNoteColor = color
             binding.myNote.backgroundTintList =
                 ColorStateList.valueOf(Color.parseColor(color))
         }
-        stickyNoteViewModel.stickyNoteContent.observe(viewLifecycleOwner){note->
 
-            stickyNoteContent = note
-        }
         binding.saveBtn.setOnClickListener{
 
-            stickyNoteViewModel.insert(
+            stickyNoteViewModel.insertNote(
                 StickyNotesTable(
-                    stickyNoteContent = stickyNoteContent!!,
-                    stickyNoteColor = stickyNoteColor,
-                    fontColor = stickyNoteFontColor,
-                    isFavorite = false
+                    stickyNoteContent = stickyNoteViewModel.stickyNoteContent.value!!,
+                    stickyNoteColor = stickyNoteViewModel.stickyNoteColor.value!!,
+                    fontColor = stickyNoteViewModel.fontColor.value!!,
                 )
             )
-
+            binding.myNote.setText("")
+            saveNoteDialog(
+               context = requireContext()
+           )
         }
     }
+}
+fun saveNoteDialog(
+    context:Context,
+){
+    val dialog = Dialog(context)
+    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    dialog.setCancelable(true)
+    dialog.setContentView(R.layout.saved_note_dialog)
+    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    dialog.show()
 }
