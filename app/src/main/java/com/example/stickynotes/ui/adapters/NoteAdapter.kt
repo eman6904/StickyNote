@@ -28,6 +28,7 @@ class NoteAdapter (private val list: List<StickyNotesTable>,private val stickyNo
         val noteContent = binding.noteContent
         val isSelectedCheckBox = binding.isSelectedCheckBox
         val lockIcon = binding.lockIcon2
+        val layer = binding.layer
 
     }
     private var onClickListener:OnClickListener? = null
@@ -44,10 +45,15 @@ class NoteAdapter (private val list: List<StickyNotesTable>,private val stickyNo
         holder.noteBody.backgroundTintList = ColorStateList.valueOf(Color.parseColor(list[position].stickyNoteColor))
         holder.noteContent.setText(list[position].stickyNoteContent)
         if (!list[position].isLocked){
-            holder.noteContent.setTextColor(Color.parseColor(list[position].fontColor))
+
+            holder.layer.visibility = View.GONE
         } else {
-            holder.noteContent.setTextColor(Color.parseColor(list[position].stickyNoteColor))
+            holder.layer.visibility = View.VISIBLE
+            holder.layer.backgroundTintList = ColorStateList.valueOf(Color.parseColor(list[position].stickyNoteColor))
+            holder.noteContent.setText(list[position].stickyNoteContent)
         }
+        holder.noteContent.setTextColor(Color.parseColor(list[position].fontColor))
+
         holder.lockIcon.isVisible = list[position].isLocked
 
         if(stickyNotesViewModel.selectionMode.value == true) {

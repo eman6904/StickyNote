@@ -19,6 +19,15 @@
            android:textColor="@color/white"
            android:text="" />
    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/layer"
+        android:padding="30dp"
+        android:background="@drawable/note_background"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_height="match_parent">
+    </LinearLayout>
     <ImageView
         android:id="@+id/lockIcon2"
         android:layout_width="match_parent"

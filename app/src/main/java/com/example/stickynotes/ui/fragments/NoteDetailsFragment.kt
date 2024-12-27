@@ -64,12 +64,16 @@ class NoteDetailsFragment : Fragment() {
 
             selectedNote = note
             if (!note.isLocked){
-                binding.selectedNote.setTextColor(Color.parseColor(note.fontColor))
-                binding.selectedNote.setHintTextColor(Color.parseColor(note.fontColor))
+
+                binding.layer.visibility = View.GONE
             } else {
-                binding.selectedNote.setTextColor(Color.parseColor(note.stickyNoteColor))
-                binding.selectedNote.setHintTextColor(Color.parseColor(note.stickyNoteColor))
+
+               binding.layer.visibility = View.VISIBLE
+                binding.layer.backgroundTintList =
+                    ColorStateList.valueOf(Color.parseColor(note.stickyNoteColor))
             }
+            binding.selectedNote.setTextColor(Color.parseColor(note.fontColor))
+            binding.selectedNote.setHintTextColor(Color.parseColor(note.fontColor))
             binding.selectedNote.setText(note.stickyNoteContent)
             binding.selectedNote.backgroundTintList =
                 ColorStateList.valueOf(Color.parseColor(note.stickyNoteColor))
