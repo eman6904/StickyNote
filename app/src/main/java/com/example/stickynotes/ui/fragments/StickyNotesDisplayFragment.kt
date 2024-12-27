@@ -1,8 +1,6 @@
 package com.example.stickynotes.ui.fragments
 
 import android.app.Dialog
-import android.content.Context
-import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -14,25 +12,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Adapter
-import android.widget.HorizontalScrollView
-import android.widget.Toast
+import android.widget.Button
 import androidx.activity.addCallback
-import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.stickynotes.R
 import com.example.stickynotes.data.tables.StickyNotesTable
 import com.example.stickynotes.data.viewModel.StickyNotesViewModel
 import com.example.stickynotes.databinding.FragmentStickyNotesDisplayBinding
-import com.example.stickynotes.ui.adapters.ColorsAdapter
 import com.example.stickynotes.ui.adapters.NoteAdapter
-import com.example.stickynotes.ui.models.ColorModel
 
 
 class StickyNotesDisplayFragment : Fragment() {
@@ -58,6 +48,7 @@ class StickyNotesDisplayFragment : Fragment() {
                 var notes = (values[0] as? List<StickyNotesTable> ?: emptyList())
                 var selectionMode = values[1] as? Boolean ?: false
                 val searchedQuery = values[2] as?String?:""
+                Log.d("note",stickyNoteViewModel.notes.value.toString())
                 notes = notes.filter {
                     it.stickyNoteContent.contains(searchedQuery,true)
                 }
@@ -78,7 +69,8 @@ class StickyNotesDisplayFragment : Fragment() {
                                 stickyNoteViewModel.addToSelectedIds(notes[position].id)
                             adapter.notifyDataSetChanged()
                         }else{
-                            stickyNoteViewModel.setSelectedNote(notes[position])
+
+                            stickyNoteViewModel.setSelectedNote( notes[position].copy())
                             navController.navigate(R.id.action_viewPagerFragment_to_noteDetailsFrgment)
                         }
 
@@ -98,8 +90,9 @@ class StickyNotesDisplayFragment : Fragment() {
                         stickyNoteViewModel.removeSelectionMode()
                         adapter.notifyDataSetChanged()
                     }else
-                      activity?.finish()
+                       activity?.finish()
                 }
+
             }
 
         }
@@ -111,10 +104,7 @@ class StickyNotesDisplayFragment : Fragment() {
                 binding.deleteBtn.visibility = View.VISIBLE
         }
         binding.deleteBtn.setOnClickListener {
-
-            stickyNoteViewModel.deleteNotes(stickyNoteViewModel.selectedIds.value!!)
-            stickyNoteViewModel.removeSelectionMode()
-
+            deleteNoteDialog()
         }
         binding.searchBtn.setOnClickListener {
 
@@ -141,6 +131,25 @@ class StickyNotesDisplayFragment : Fragment() {
             }
         })
     }
-
+    fun deleteNoteDialog(){
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.detete_note_dialog)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+        val cancelBtn = dialog.findViewById<Button>(R.id.cancelBtn2)
+        val deleteBtn = dialog.findViewById<Button>(R.id.deleteBtn)
+        cancelBtn.setOnClickListener {
+            dialog.cancel()
+        }
+        deleteBtn.setOnClickListener {
+            stickyNoteViewModel.deleteNotes(stickyNoteViewModel.selectedIds.value!!)
+            stickyNoteViewModel.removeSelectionMode()
+            dialog.cancel()
+        }
+    }
 }
+
+
 

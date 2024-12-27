@@ -25,7 +25,7 @@
         android:textColor="@color/appColor1"
         android:textSize="18dp"
         android:textColorHint="@color/appColor1"
-        android:hint="What are you thinking..🤔"
+        android:hint="@string/what_are_you_thinking"
        />
 
     <TextView
@@ -60,7 +60,7 @@
         android:layout_marginStart="5dp"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:text="Sticky Note Color" />
+        android:text="@string/sticky_note_color" />
     </FrameLayout>
 
     <Space
@@ -86,7 +86,7 @@
         android:layout_marginStart="5dp"
         android:shadowColor="@color/black"
         android:textColor="@color/white"
-        android:text="Font Color" />
+        android:text="@string/font_color" />
     </FrameLayout>
     <Space
         android:layout_width="match_parent"
@@ -103,6 +103,6 @@
         android:shadowColor="@color/black"
         android:layout_marginStart="5dp"
         android:textColor="@color/white"
-        android:text="Save" />
+        android:text="@string/save" />
     </LinearLayout>
 </ScrollView>

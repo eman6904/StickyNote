@@ -19,7 +19,7 @@
         android:textSize="20sp"
         android:layout_marginTop="15dp"
         android:textColor="@color/appColor2"
-        android:text="Edit Your Sticky Note  " />
+        android:text="@string/edit_your_sticky_note" />
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -71,7 +71,7 @@
                android:textColor="@color/appColor2"
                android:layout_gravity="center"
                android:layout_weight="1"
-               android:text="Add to favorite" />
+               android:text="@string/add_to_favorite" />
            <CheckBox
                android:id="@+id/isFav"
                android:layout_width="wrap_content"
@@ -105,7 +105,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:textColor="@color/appColor2"
-            android:text="Lock note  " />
+            android:text="@string/lock_note" />
         <CheckBox
             android:id="@+id/isLocked"
             android:layout_width="wrap_content"
@@ -137,7 +137,7 @@
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:padding="5dp"
-                android:text="Note Color">
+                android:text="@string/note_color">
             </TextView>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/noteColorList"
@@ -159,7 +159,7 @@
                  android:gravity="center"
                  android:textSize="18sp"
                  android:padding="5dp"
-                 android:text="Font Color">
+                 android:text="@string/font_color">
              </TextView>
              <androidx.recyclerview.widget.RecyclerView
                  android:id="@+id/fontColorList"
@@ -176,5 +176,5 @@
         android:shadowColor="@color/black"
         android:background="@drawable/button_shape"
         android:textColor="@color/white"
-        android:text="Save Updates" />
+        android:text="@string/save_updates" />
 </LinearLayout>

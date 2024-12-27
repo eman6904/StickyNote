@@ -61,6 +61,7 @@ class NewStickyNoteFragment : Fragment() {
 
         insertNote()
 
+
     }
 
     private fun stickyNoteColor(
@@ -155,11 +156,6 @@ class NewStickyNoteFragment : Fragment() {
     }
 
     private fun insertNote(){
-        
-        binding.myNote.backgroundTintList =
-            ColorStateList.valueOf(Color.parseColor(stickyNoteViewModel.stickyNoteColor.value))
-        binding.myNote.setTextColor(Color.parseColor(stickyNoteViewModel.fontColor.value))
-        binding.myNote.setHintTextColor(Color.parseColor(stickyNoteViewModel.fontColor.value))
 
         stickyNoteViewModel.fontColor.observe(viewLifecycleOwner){color->
 
@@ -181,6 +177,8 @@ class NewStickyNoteFragment : Fragment() {
                     fontColor = stickyNoteViewModel.fontColor.value!!,
                 )
             )
+            stickyNoteViewModel.cleanStickyNote()
+            binding.myNote.isCursorVisible = false
             binding.myNote.setText("")
             saveNoteDialog(
                context = requireContext()

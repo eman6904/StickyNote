@@ -18,7 +18,7 @@ class StickyNotesViewModel(application: Application) : AndroidViewModel(applicat
 
     val notes: LiveData<List<StickyNotesTable>> get() = repository.notes
 
-    private val _stickyNoteContent = MutableLiveData<String>()
+    private val _stickyNoteContent = MutableLiveData<String>("")
     val stickyNoteContent: LiveData<String> get() = _stickyNoteContent
 
     private val _selectedIds = MutableLiveData<ArrayList<Int>>()
@@ -121,5 +121,10 @@ class StickyNotesViewModel(application: Application) : AndroidViewModel(applicat
     fun setSearchedQuery(searchedQuery:String){
 
         _searchedQuery.value = searchedQuery
+    }
+    fun cleanStickyNote(){
+
+        _FontColor.value = "#FFFFFFFF"
+        _stickyNoteColor.value = "#F0BB78"
     }
 }

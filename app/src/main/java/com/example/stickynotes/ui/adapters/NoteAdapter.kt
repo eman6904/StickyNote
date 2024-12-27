@@ -1,7 +1,9 @@
 package com.example.stickynotes.ui.adapters
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,15 +40,14 @@ class NoteAdapter (private val list: List<StickyNotesTable>,private val stickyNo
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        val drawable = ContextCompat.getDrawable(holder.itemView.context, R.drawable.note_background) as GradientDrawable
-        drawable.setColor(Color.parseColor(list[position].stickyNoteColor))
-        drawable.setStroke(2, holder.itemView.context.getColor(R.color.helperColor))
-        holder.noteBody.background = drawable
-        if(!list[position].isLocked)
-            holder.noteContent.setText(list[position].stickyNoteContent)
-        else
-            holder.noteContent.setText("")
-        holder.noteContent.setTextColor(Color.parseColor(list[position].fontColor))
+
+        holder.noteBody.backgroundTintList = ColorStateList.valueOf(Color.parseColor(list[position].stickyNoteColor))
+        holder.noteContent.setText(list[position].stickyNoteContent)
+        if (!list[position].isLocked){
+            holder.noteContent.setTextColor(Color.parseColor(list[position].fontColor))
+        } else {
+            holder.noteContent.setTextColor(Color.parseColor(list[position].stickyNoteColor))
+        }
         holder.lockIcon.isVisible = list[position].isLocked
 
         if(stickyNotesViewModel.selectionMode.value == true) {

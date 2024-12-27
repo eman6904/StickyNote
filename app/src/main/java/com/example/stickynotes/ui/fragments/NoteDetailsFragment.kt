@@ -18,7 +18,6 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.stickynotes.R
 import com.example.stickynotes.data.tables.StickyNotesTable
@@ -34,7 +33,6 @@ class NoteDetailsFragment : Fragment() {
     private val stickyNoteViewModel: StickyNotesViewModel by activityViewModels()
     private lateinit var selectedNote: StickyNotesTable
     private lateinit var colorLists: ColorsLists
-    private lateinit var navController: NavController
     private val binding: FragmentNoteDetailsFrgmentBinding by lazy {
         FragmentNoteDetailsFrgmentBinding.inflate(layoutInflater)
     }
@@ -48,6 +46,7 @@ class NoteDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
         colorLists = ColorsLists()
         colorLists.setStickyNoteColor()
         colorLists.setFontColor()
@@ -60,20 +59,24 @@ class NoteDetailsFragment : Fragment() {
             context = requireContext(),
             colorLists = colorLists
         )
+
         stickyNoteViewModel.selectedNote.observe(viewLifecycleOwner) { note ->
 
-            selectedNote = stickyNoteViewModel.selectedNote.value!!
-            if (!note.isLocked)
-                binding.selectedNote.setText(note.stickyNoteContent)
-            else
-                binding.selectedNote.setText("")
+            selectedNote = note
+            if (!note.isLocked){
+                binding.selectedNote.setTextColor(Color.parseColor(note.fontColor))
+                binding.selectedNote.setHintTextColor(Color.parseColor(note.fontColor))
+            } else {
+                binding.selectedNote.setTextColor(Color.parseColor(note.stickyNoteColor))
+                binding.selectedNote.setHintTextColor(Color.parseColor(note.stickyNoteColor))
+            }
+            binding.selectedNote.setText(note.stickyNoteContent)
             binding.selectedNote.backgroundTintList =
                 ColorStateList.valueOf(Color.parseColor(note.stickyNoteColor))
-            binding.selectedNote.setTextColor(Color.parseColor(note.fontColor))
-            binding.selectedNote.setHintTextColor(Color.parseColor(note.fontColor))
             binding.isFav.isChecked = note.isFavorite
             binding.isLocked.isChecked = note.isLocked
             binding.lockIcon2.isVisible = note.isLocked
+            binding.selectedNote.isEnabled = !note.isLocked
         }
         binding.addToFavorite.setOnClickListener {
 
@@ -130,7 +133,7 @@ class NoteDetailsFragment : Fragment() {
             ColorsAdapter.OnClickListener {
             override fun onClick(position: Int, model: ColorModel) {
 
-                selectedNote.fontColor = colorLists.noteColorsList[position].brushColor
+                selectedNote.fontColor = colorLists.fontColorsList[position].brushColor
                 stickyNoteViewModel.setSelectedNote(selectedNote)
             }
         })
@@ -174,8 +177,8 @@ class NoteDetailsFragment : Fragment() {
         })
         if (selectedNote.isLocked) {
 
-            lockBtn.setText("Open")
-            passEdt.setHint("Enter your password")
+            lockBtn.setText(getString(R.string.open))
+            passEdt.setHint(getString(R.string.enter_your_password))
             lockBtn.setOnClickListener {
                 if (selectedNote.lockPassword == passEdt.text.toString()) {
                     selectedNote.isLocked = false
@@ -187,8 +190,8 @@ class NoteDetailsFragment : Fragment() {
                 }
             }
         } else {
-            lockBtn.setText("Lock")
-            passEdt.setHint("Enter password")
+            lockBtn.setText(getString(R.string.lock))
+            passEdt.setHint(getString(R.string.enter_password))
             lockBtn.setOnClickListener {
 
                 selectedNote.lockPassword = passEdt.text.toString()

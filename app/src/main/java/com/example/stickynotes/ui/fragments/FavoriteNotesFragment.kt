@@ -5,15 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.stickynotes.data.viewModel.StickyNotesViewModel
 import com.example.stickynotes.databinding.FragmentFavoriteNotesBinding
 import com.example.stickynotes.ui.adapters.NoteAdapter
 
 class FavoriteNotesFragment : Fragment() {
-    private lateinit var navController: NavController
+
     private val stickyNoteViewModel: StickyNotesViewModel by activityViewModels()
     private val binding: FragmentFavoriteNotesBinding by lazy {
         FragmentFavoriteNotesBinding.inflate(layoutInflater)
@@ -26,6 +26,7 @@ class FavoriteNotesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         stickyNoteViewModel.notes.observe(viewLifecycleOwner){notes->
 
